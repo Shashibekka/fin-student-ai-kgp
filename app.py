@@ -9,11 +9,12 @@ model_path = hf_hub_download(
     filename="unsloth.Q4_K_M.gguf"
 )
 
-# 2. Load the model directly into CPU memory
+# 2. Load the model directly into CPU memory (ON A STRICT DIET)
 print("Waking up the AI Advisor...")
 llm = Llama(
     model_path=model_path,
-    n_ctx=2048,       # How much memory to allocate for the conversation
+    n_ctx=512,        # LOWERED: Only keep ~500 words in short-term memory at a time
+    n_batch=128,      # ADDED: Process the math in much smaller chunks to save RAM
     n_threads=2,      # Free HF Spaces give us 2 CPU cores
 )
 
@@ -34,7 +35,7 @@ def predict(message, history):
         token = chunk['choices'][0]['text']
         partial_message += token
         yield partial_message  # 'yield' pushes it to the UI instantly!
-        
+
 # 4. The UI (Same Instagram style as before!)
 custom_css = """
 .gradio-container { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #fafafa; }
