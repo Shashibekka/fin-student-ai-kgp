@@ -4,8 +4,8 @@ from llama_cpp import Llama
 
 # 1. Download the compressed GGUF model from your new repo
 model_path = hf_hub_download(
-    repo_id="shashibekka/kgp-phi3-finance-gguf", # <-- The new Phi-3 repo!
-    filename="unsloth.Q4_K_M.gguf"
+    repo_id="shashibekka/kgp-phi3-finance-gguf",
+    filename="phi-3-mini-4k-instruct.Q4_K_M.gguf" # <-- The new Phi-3 name!
 )
 
 # 2. Load the model directly into CPU memory (ON A STRICT DIET)
