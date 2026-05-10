@@ -17,17 +17,24 @@ llm = Llama(
     n_threads=2,      # Free HF Spaces give us 2 CPU cores
 )
 
-# 3. Define the Chat Logic
+# 3. Define the Chat Logic (NOW WITH STREAMING!)
 def predict(message, history):
     prompt = f"""Below is an instruction from a student. Write a helpful financial response.
 ### Instruction:
 {message}
 ### Response:
 """
-    # Generate the answer using llama.cpp
-    result = llm(prompt, max_tokens=150, stop=["<|end_of_text|>", "<|eot_id|>"])
-    return result['choices'][0]['text'].strip()
-
+    
+    # We added stream=True here so it sends words one by one!
+    stream = llm(prompt, max_tokens=150, stop=["<|end_of_text|>", "<|eot_id|>"], stream=True)
+    
+    partial_message = ""
+    for chunk in stream:
+        # Extract the token and add it to the message
+        token = chunk['choices'][0]['text']
+        partial_message += token
+        yield partial_message  # 'yield' pushes it to the UI instantly!
+        
 # 4. The UI (Same Instagram style as before!)
 custom_css = """
 .gradio-container { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #fafafa; }
