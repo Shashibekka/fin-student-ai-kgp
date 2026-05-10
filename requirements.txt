@@ -1,4 +1,3 @@
 gradio
-transformers
-torch
-accelerate
+huggingface_hub
+llama-cpp-python
