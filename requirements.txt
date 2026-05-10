@@ -1,3 +1,3 @@
-gradio
-huggingface_hub
+gradio==4.36.1
 llama-cpp-python==0.2.85 --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
+huggingface_hub==0.23.2
