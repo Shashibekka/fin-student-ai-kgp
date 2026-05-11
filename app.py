@@ -80,7 +80,7 @@ h1 {
 # Apply the theme, CSS, and Labels to your ChatInterface
 demo = gr.ChatInterface(
     fn=predict, 
-    title="ChatKGP", # <-- Removed the emoji
+    title="Finance Advisor KGP", # <-- Updated title
     chatbot=gr.Chatbot(label="ChatKGP", show_label=True), # <-- Replaced the "Chatbot" text
     theme=custom_theme,
     css=custom_css,
