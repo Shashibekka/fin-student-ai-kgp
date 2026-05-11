@@ -17,16 +17,18 @@ llm = Llama(
     n_threads=2,      # Free HF Spaces give us 2 CPU cores
 )
 
-# 3. Define the Chat Logic (NOW WITH STREAMING!)
+# 3. Define the Chat Logic (NOW WITH STREAMING & PERSONA)
 def predict(message, history):
-    prompt = f"""Below is an instruction from a student. Write a helpful financial response.
+    # We inject a secret persona before the user's message to make it sound human
+    prompt = f"""You are ChatKGP, a friendly, casual, and highly knowledgeable financial advisor for IIT Kharagpur students. Talk like a real human student. Be conversational, empathetic, and relatable. Avoid robotic one-liners. 
+
 ### Instruction:
 {message}
 ### Response:
 """
     
     # We added stream=True here so it sends words one by one!
-    stream = llm(prompt, max_tokens=150, stop=["<|end_of_text|>", "<|eot_id|>"], stream=True)
+    stream = llm(prompt, max_tokens=200, stop=["<|end_of_text|>", "<|eot_id|>"], stream=True)
     
     partial_message = ""
     for chunk in stream:
@@ -35,9 +37,9 @@ def predict(message, history):
         partial_message += token
         yield partial_message  # 'yield' pushes it to the UI instantly!
 
-# 4. The New UI (Same Instagram style as before!)
+# 4. The New UI (Sleek, Dark, Gradient Style)
 
-# 1. Define the sleek, dark base theme
+# Define the sleek, dark base theme
 custom_theme = gr.themes.Soft(
     primary_hue="emerald",  # Matches the green vibe
     neutral_hue="slate",
@@ -49,7 +51,7 @@ custom_theme = gr.themes.Soft(
     input_background_fill="#1F2937",
 )
 
-# 2. Inject Custom CSS for the glowing gradients
+# Inject Custom CSS for the glowing gradients
 custom_css = """
 /* Gradient effect for the main title */
 h1 {
@@ -75,10 +77,11 @@ h1 {
 }
 """
 
-# 3. Apply the theme and CSS to your ChatInterface
+# Apply the theme, CSS, and Labels to your ChatInterface
 demo = gr.ChatInterface(
-    fn=predict, # Assuming your function is still named 'predict'
-    title="📉 KGP Finance Advisor",
+    fn=predict, 
+    title="ChatKGP", # <-- Removed the emoji
+    chatbot=gr.Chatbot(label="ChatKGP", show_label=True), # <-- Replaced the "Chatbot" text
     theme=custom_theme,
     css=custom_css,
     fill_height=True # Makes the chat window stretch to fit the screen nicely
