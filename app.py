@@ -35,20 +35,53 @@ def predict(message, history):
         partial_message += token
         yield partial_message  # 'yield' pushes it to the UI instantly!
 
-# 4. The UI (Same Instagram style as before!)
+# 4. The New UI (Same Instagram style as before!)
+
+# 1. Define the sleek, dark base theme
+custom_theme = gr.themes.Soft(
+    primary_hue="emerald",  # Matches the green vibe
+    neutral_hue="slate",
+).set(
+    body_background_fill="#0B0F19", # Deep dark background
+    block_background_fill="#111827", # Slightly lighter panels
+    block_border_width="1px",
+    block_border_color="#1F2937",
+    input_background_fill="#1F2937",
+)
+
+# 2. Inject Custom CSS for the glowing gradients
 custom_css = """
-.gradio-container { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #fafafa; }
-.user { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%) !important; color: white !important; border-radius: 22px 22px 4px 22px !important; }
-.bot { background-color: #efefef !important; color: #262626 !important; border-radius: 22px 22px 22px 4px !important; }
+/* Gradient effect for the main title */
+h1 {
+    text-align: center;
+    background: linear-gradient(90deg, #10B981, #3B82F6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+/* Gradient border for the chat input box */
+.contain textarea {
+    border: 1px solid transparent !important;
+    background: linear-gradient(#1F2937, #1F2937) padding-box, 
+                linear-gradient(90deg, #10B981, #3B82F6) border-box !important;
+    border-radius: 8px;
+}
+
+/* Subtle gradient background for the AI's chat bubbles */
+.bot {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.05)) !important;
+    border: 1px solid rgba(16, 185, 129, 0.2) !important;
+}
 """
 
+# 3. Apply the theme and CSS to your ChatInterface
 demo = gr.ChatInterface(
-    predict,
-    title="IIT KGP Finance AI 💸✨",
-    description="Drop a message to get campus budgeting advice! 🎓📊",
-    theme=gr.themes.Base(),
+    fn=predict, # Assuming your function is still named 'predict'
+    title="📉 KGP Finance Advisor",
+    theme=custom_theme,
     css=custom_css,
-    examples=["I have 500 rupees left, should I go to PFC?", "How do I save on my mess bill?"],
+    fill_height=True # Makes the chat window stretch to fit the screen nicely
 )
 
 if __name__ == "__main__":
