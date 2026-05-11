@@ -88,4 +88,4 @@ demo = gr.ChatInterface(
 )
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(share=True) # <-- 'share=True' gives you a public link to share your app with friends!
