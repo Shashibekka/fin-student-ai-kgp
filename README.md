@@ -12,6 +12,10 @@ python_version: 3.10.13
 
 # 📉 ChatKGP: The IIT Kharagpur AI Finance Advisor
 
+<div align="center">
+  <img src="assets/demo_ui.png" alt="ChatKGP User Interface" width="700"/>
+</div>
+
 An iterative, domain-specific Large Language Model (LLM) pipeline designed to provide hyper-local, conversational financial advice for students at IIT Kharagpur.
 
 ## 🚀 Overview & The Problem
